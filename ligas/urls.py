@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from tasks import views
+from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('tasks/create', views.create_task, name='create_task'),
     path('logout/', views.signout, name='logout'),
     path('signin/', views.signin, name='signin'),
+    path('MiLiga/',include('miliga.urls')),
 ]
