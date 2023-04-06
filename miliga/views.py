@@ -7,3 +7,6 @@ def home(request):
 
 def index(request):
     return render(request, 'miliga/index.html')
+
+def equipos(request):
+    return render(request, 'miliga/equipos.html')

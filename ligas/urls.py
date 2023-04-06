@@ -23,12 +23,6 @@ from tasks import views
 from django.urls import include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('signup/', views.signup, name='signup'),
-    path('tasks/', views.tasks, name='tasks'),
-    path('tasks/create', views.create_task, name='create_task'),
-    path('logout/', views.signout, name='logout'),
-    path('signin/', views.signin, name='signin'),
-    path('MiLiga/',include('miliga.urls')),
+    path('',include('miliga.urls')),
+    path('tasks/',include('tasks.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
