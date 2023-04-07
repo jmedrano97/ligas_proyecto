@@ -6,12 +6,14 @@ class Liga(models.Model):
     estado = models.CharField(max_length=100)
     pais = models.CharField(max_length=100)
     fecha_inicio = models.DateField()
-    fecha_final = models.DateField()
+    fecha_final = models.DateField( null=True, blank=True, default=None)
 
 class Equipo(models.Model):
     nombre = models.CharField(max_length=100)
     campo = models.CharField(max_length=100, blank=True, null=True, default=None)
     liga = models.ForeignKey(Liga, on_delete=models.CASCADE)
+    escudo = models.ImageField(upload_to='equipos/', blank=True, null=True)
+    foto = models.ImageField(upload_to='equipos/', blank=True, null=True)
 
 class Jugador(models.Model):
     # escribir opciones de posicion
