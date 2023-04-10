@@ -32,7 +32,7 @@ class LigaAdmin(admin.ModelAdmin):
 
 @admin.register(Equipo)
 class EquipoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'campo', 'liga', 'escudo')
+    list_display = ('nombre', 'campo', 'liga', 'escudo_img')
 
 @admin.register(Jugador)
 class JugadorAdmin(admin.ModelAdmin):

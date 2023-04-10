@@ -1,0 +1,86 @@
+{% extends 'miliga/base_1.html' %}
+{% load static %}
+
+{% block css %}
+<style type="text/css">
+
+  .team-1 img{
+    transition: 1s ease;
+    }
+    
+    .team-1:hover img{
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    transition: 1s ease;
+    }
+
+    .team-1:hover{
+      cursor: pointer;
+    }
+
+    .ver_mas {
+      color: #ee1e46;
+      transition: 1s ease;
+    }
+    
+    .team-1:hover .ver_mas {
+      display: block; /* El texto aparecerá cuando el cursor esté en hover */
+      -webkit-transform: scale(1.2);
+      -ms-transform: scale(1.2);
+      transform: scale(1.2);
+      transition: 1s ease;
+      cursor: pointer;
+    }
+  
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="site-section bg-dark">
+  <div class="container">
+    <div class="row">
+      {% for equipo in equipos %}
+      <div class="col-lg-6 mb-4">
+        <div class="bg-light p-4 rounded">
+          <div class="team-1 text-center" data-id="{{equipo.id}}">
+            {% if equipo.escudo_img %}
+            <img src="{{equipo.escudo_img.url}}" alt="Image" width="200"
+              height="200">
+            {% else %}
+            <img src="{% static 'images/escudo_predeterminado.png' %}"
+              alt="Image" width="200" height="200">
+            {% endif %}
+            <h3 class="mb-0">{{equipo.nombre}}</h3>
+            <p class="ver_mas mb-0">Ver equipo</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="site-section bg-dark">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 ">
+        <a href="{%url 'miliga:create_equipo'%}" class="btn btn-primary btn-lg btn-block">Crear nuevo equipo</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $('.team-1').click(function () {
+    var equipo_id = $(this).data('id');
+    window.location.href = "{% url 'miliga:detail_equipo' 99999 %}" .replace('99999', equipo_id);
+  });
+
+</script>
+{% endblock %}
