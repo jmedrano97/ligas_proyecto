@@ -4,28 +4,6 @@ from .models import Liga, Equipo, Jugador, CampoDeJuego, Partido, Clasificacion
 from django.forms.widgets import ClearableFileInput
 from django.utils.translation import gettext_lazy as _
 
-
-# class EquipoAdmin(admin.ModelAdmin):
-#     list_display = ('nombre', 'liga', 'mostrar_imagen')
-#     fields = ('nombre', 'liga', 'escudo', 'campo')
-
-#     def mostrar_imagen(self, obj):
-#         if obj.escudo:
-#             return '<img src="%s" height="50" />' % obj.escudo.url
-#         else:
-#             return _('No imagen')
-#     mostrar_imagen.allow_tags = True
-#     mostrar_imagen.short_description = _('escudo')
-
-#     def formfield_for_dbfield(self, db_field, **kwargs):
-#         formfield = super(EquipoAdmin, self).formfield_for_dbfield(db_field, **kwargs)
-
-#         if db_field.name == 'escudo':
-#             formfield.widget = ClearableFileInput(attrs={'class': 'image-widget'})
-#         return formfield
-
-# admin.site.register(Equipo, EquipoAdmin)
-
 @admin.register(Liga)
 class LigaAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'ciudad', 'estado', 'pais', 'fecha_inicio', 'fecha_final')
@@ -36,7 +14,7 @@ class EquipoAdmin(admin.ModelAdmin):
 
 @admin.register(Jugador)
 class JugadorAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'fecha_nacimiento', 'ocupacion', 'numero', 'equipo', 'liga')
+    list_display = ('nombre','ocupacion','equipo', 'liga', 'jugador_img')
     list_filter = ('ocupacion', 'equipo', 'liga')
 
 @admin.register(CampoDeJuego)

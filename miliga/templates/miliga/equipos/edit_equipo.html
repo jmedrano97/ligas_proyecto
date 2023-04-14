@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row align-items-end">
       <div class="col-lg-12 mx-auto text-center">
-        <h1 class="text-white">Crear nuevo equipo</h1>
+        <h1 class="text-white">Editar equipo</h1>
       </div>
     </div>
 </div>
@@ -23,9 +23,16 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-7">
-                <form action="{% url 'miliga:create_equipo' %}" method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-
+                    
+                    <div class="form-group">
+                        {%if equipo.escudo_img%}
+                            <img src="{{ equipo.escudo_img.url }}" alt="" height="200" width="200">
+                        {%else%}
+                            <img src="{% static 'images/escudo_predeterminado.png'%}" alt="" height="200" width="200">
+                        {%endif%}
+                    </div>
                     <div class="form-group">
                         {{ form.nombre }}
                     </div>
@@ -36,7 +43,7 @@
                         {{ form.escudo_img }}
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="btn btn-primary py-3 px-5" value="Crear">
+                        <input type="submit" class="btn btn-primary py-2 w-75" value="Confirmar">
                     </div>
                 </form>  
             </div>
@@ -45,7 +52,7 @@
             <ul class="list-unstyled">
                 <li class="mb-2">
                 <strong class="text-white d-block">Formulario</strong>
-                Aquí podras crear un nuevo erquipo.
+                Aquí podras editar el erquipo.
                 </li>
                 <li class="mb-2">
                     <strong class="text-white d-block">Consejos</strong>

@@ -1,0 +1,86 @@
+{% extends 'miliga/base_1.html' %}
+{% load static %}
+
+{% block css %}
+<style type="text/css">
+    .ficha_jugador {
+      min-height: 264px;
+    }
+
+    .team-1:hover{
+      cursor: pointer;
+    }
+
+    .ver_mas {
+      color: #ee1e46;
+      transition: 1s ease;
+    }
+    
+    .team-1:hover .ver_mas {
+      display: block; /* El texto aparecerá cuando el cursor esté en hover */
+      -webkit-transform: scale(1.2);
+      -ms-transform: scale(1.2);
+      transform: scale(1.2);
+      transition: 1s ease;
+      cursor: pointer;
+    }
+  
+    .texto-multilinea {
+        display: -webkit-box; /* Establece el elemento como un contenedor flexible */
+        -webkit-box-orient: vertical; /* Establece la dirección de apilamiento vertical */
+        overflow: hidden; /* Oculta el contenido que se sale del contenedor */
+        -webkit-line-clamp: 2; /* Establece el número máximo de líneas */
+      }
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="site-section bg-dark">
+  <div class="container">
+    <div class="row">
+      {% for jugador in jugadores %}
+      <div class="col-lg-3 col-md-4 col-6 mb-4">
+        <div class="bg-light p-4 rounded ficha_jugador">
+          <div class="team-1 text-center" data-id="{{jugador.id}}">
+            {% if jugador.jugador_img %}
+            <img src="{{jugador.jugador_img.url}}" alt="Image" width="100"
+              height="100">
+            {% else %}
+            <img src="{% static 'images/jugador_predeterminado.png' %}"
+              alt="Image" width="100" height="100">
+            {% endif %}
+            <p class="mb-1 texto-multilinea">{{jugador.nombre}}</p>
+            <p class="mb-1 text-truncate">{{jugador.equipo}}</p>
+            <p class="ver_mas mb-0">Ver jugador</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="site-section bg-dark">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 ">
+        <a href="{%url 'miliga:create_jugador' 0%}" class="btn btn-primary btn-lg btn-block">Registrar nuevo jugador</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+  $('.team-1').click(function () {
+    var jugador_id = $(this).data('id');
+    window.location.href = "{% url 'miliga:detail_jugador' 99999 %}" .replace('99999', jugador_id);
+  });
+
+</script>
+{% endblock %}
