@@ -85,8 +85,11 @@
     </div>
 
     {% if mensaje %}
-    <div class="alert alert-{{mensaje.tipo}}" role="alert">
+    <div class="alert alert-{{mensaje.tipo}} alert-dismissible fade show" role="alert">
       {{mensaje.desc}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
     {% endif %}
 

@@ -44,13 +44,13 @@
       <div class="col-lg-3 col-md-4 col-6 mb-4">
         <div class="bg-light p-4 rounded ficha_jugador">
           <div class="team-1 text-center" data-id="{{jugador.id}}">
-            {% if jugador.jugador_img %}
-            <img src="{{jugador.jugador_img.url}}" alt="Image" width="100"
-              height="100">
-            {% else %}
-            <img src="{% static 'images/jugador_predeterminado.png' %}"
-              alt="Image" width="100" height="100">
-            {% endif %}
+            <img
+              src="{% if jugador.jugador_img %}
+              {{jugador.jugador_img.url}}
+              {% else %}
+              {% static 'images/jugador_predeterminado.png' %}
+              {% endif %}"
+              alt="" height="100" width="100" class="rounded">
             <p class="mb-1 texto-multilinea">{{jugador.nombre}}</p>
             <p class="mb-1 text-truncate">{{jugador.equipo}}</p>
             <p class="ver_mas mb-0">Ver jugador</p>
@@ -66,7 +66,8 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10 ">
-        <a href="{%url 'miliga:create_jugador' 0%}" class="btn btn-primary btn-lg btn-block">Registrar nuevo jugador</a>
+        <a href="{%url 'miliga:create_jugador' 0%}" class="btn btn-primary
+          btn-lg btn-block">Registrar jugadores</a>
       </div>
     </div>
   </div>

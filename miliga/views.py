@@ -23,6 +23,10 @@ def equipos(request):
 
     equipos = Equipo.objects.all().order_by('-id')
     context['equipos'] = equipos
+    
+    if 'mensaje' in request.session:
+        context['mensaje'] = request.session.get('mensaje')
+        del request.session['mensaje']
     return render(request, 'miliga/equipos/equipos.html', context)
 
 def create_equipo(request):
@@ -48,6 +52,9 @@ def detail_equipo(request, equipo_id):
     jugadores = Jugador.objects.filter(equipo=equipo_id)
     context['equipo'] = equipo
     context['jugadores'] = jugadores
+    if 'mensaje' in request.session:
+        context['mensaje'] = request.session.get('mensaje')
+        del request.session['mensaje']
     return render(request, 'miliga/equipos/detail_equipo.html', context)
 
 def edit_equipo(request, equipo_id):
@@ -72,17 +79,12 @@ def delete_equipo(request, equipo_id):
     try:
         equipo = get_object_or_404(Equipo, pk=equipo_id)
         equipo.delete()
-        context['equipo_eliminado'] = 'El quipo %s se ha eliminado correctamente'%equipo.nombre
+        mensaje = {'desc':'El Equipo se ha eliminado correctamente', 'tipo':'success'}
     except:
-        context['equipo_eliminado'] = ''
+        mensaje = {'desc':'Error al intentar eliminar Equipo', 'tipo':'danger'}
 
-    context['zona'] = 'equipos'
-    equipos = Equipo.objects.all().order_by('-id')
-    context['equipos'] = equipos
-    return render(request, 'miliga/equipos/equipos.html', context)
-
-
-
+    request.session['mensaje'] = mensaje
+    return redirect('miliga:equipos')
 
 
 
@@ -138,12 +140,6 @@ def detail_jugador(request, jugador_id):
 
     return render(request, 'miliga/jugadores/detail_jugador.html', context)
 
-
-
-
-
-
-
 def edit_jugador(request, jugador_id):
     context = {}
     context['zona'] = 'jugadores'
@@ -173,3 +169,15 @@ def edit_jugador(request, jugador_id):
     context['form'] = form
     context['jugador'] = jugador
     return render(request, 'miliga/jugadores/edit_jugador.html', context)
+
+def delete_jugador(request, jugador_id):
+    context = {}
+    try:
+        jugador = get_object_or_404(Jugador, pk=jugador_id)
+        jugador.delete()
+        mensaje = {'desc':'El jugador %s se ha eliminado correctamente'%jugador.nombre, 'tipo':'success'}
+    except:
+        mensaje = {'desc':'Error al intentar eliminar jugador', 'tipo':'danger'}
+
+    request.session['mensaje'] = mensaje
+    return redirect('miliga:detail_equipo',jugador.equipo.id)
