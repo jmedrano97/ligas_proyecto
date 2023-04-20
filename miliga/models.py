@@ -14,12 +14,13 @@ class Liga(models.Model):
         return self.nombre
     
 class Equipo(models.Model):
-    nombre = models.CharField(max_length=100)
-    campo = models.CharField(max_length=100, blank=True, null=True, default=None)
-    telefono            = models.CharField(max_length=100, blank=True, null=True, default=None)
-    liga = models.ForeignKey(Liga, on_delete=models.CASCADE)
+    nombre     = models.CharField(max_length=100)
+    campo      = models.CharField(max_length=100, blank=True, null=True, default=None)
+    telefono   = models.CharField(max_length=100, blank=True, null=True, default=None)
+    liga       = models.ForeignKey(Liga, on_delete=models.CASCADE)
     escudo_img = models.ImageField(upload_to='equipos/', blank=True, null=True)
-    foto_img = models.ImageField(upload_to='equipos/', blank=True, null=True)
+    foto_img   = models.ImageField(upload_to='equipos/', blank=True, null=True)
+    activo     = models.BooleanField(default=True)
     
     def __str__(self):
         return self.nombre

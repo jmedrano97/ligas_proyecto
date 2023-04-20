@@ -30,9 +30,43 @@
         overflow: hidden; /* Oculta el contenido que se sale del contenedor */
         -webkit-line-clamp: 2; /* Establece el número máximo de líneas */
       }
+    h5 {
+        color: black;
+    }
 </style>
 {% endblock %}
 {% block content %}
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
+    aria-labelledby="modal-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-label"><p>¿Está seguro de que deseas realizar esta acción?</p></h5>
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Si eliminas el equipo perderas todos los datos relacionados a el.</p>
+
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <form action="{% url 'miliga:delete_equipo' equipo.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-secondary">Solo dar de baja</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="bg-dark ">
     <div class="container pt-4">
         <div class="row align-items-end">
@@ -41,7 +75,8 @@
                 <img src="{{equipo.escudo_img.url}}" alt="" height="300"
                     width="300">
                 {% else %}
-                <img src="{% static 'images/escudo_predeterminado.png'%}" alt="" height="300" width="300">
+                <img src="{% static 'images/escudo_predeterminado.png'%}" alt=""
+                    height="300" width="300">
                 {% endif %}
                 <h1 class="text-white pt-2">{{equipo.nombre}}</h1>
                 <p>{{equipo.liga.nombre}}</p>
@@ -76,7 +111,8 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-3 col-6">
-                <a href="{%url 'miliga:create_jugador' equipo.id %}" class="btn btn-primary
+                <a href="{%url 'miliga:create_jugador' equipo.id %}" class="btn
+                    btn-primary
                     btn-lg btn-block">Nuevo jugador</a>
             </div>
         </div>
@@ -95,6 +131,17 @@
     </div>
 </div>
 
+<div class="site-section bg-dark">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 ">
+                <a href="#" data-toggle="modal" data-target="#confirm-delete">Eliminar
+                    equipo</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <br>
 
 <br>
@@ -108,6 +155,19 @@
     var jugador_id = $(this).data('id');
     window.location.href = "{% url 'miliga:detail_jugador' 99999 %}" .replace('99999', jugador_id);
   });
+
+  $('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('form').attr('action', $(e.z).data('href'));
+  });
+  
+  $('#confirm-delete button[type="submit"]').on('click', function(e) {
+    $('#confirm-delete').modal('hide');
+  });
+  
+  $('#confirm-delete').on('hidden.bs.modal', function(e) {
+    $('#confirm-delete button[type="submit"]').off('click');
+  });
+  
 
 </script>
 {% endblock %}
