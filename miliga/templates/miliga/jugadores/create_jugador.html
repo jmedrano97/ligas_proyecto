@@ -11,6 +11,9 @@
     select:disabled {
         background-color: #404f62 !important;
     }
+    .link-diferente{
+        color: #89c345 !important;
+    }
 
 </style>
 {% endblock %}
@@ -37,7 +40,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-7">
-                <form id="form_create_jugador" action="{% url 'miliga:create_jugador' 0%}" method="post" enctype="multipart/form-data">
+                <form id="form_create_jugador" action="{% url 'miliga:create_jugador' equipo.id%}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
 
 
@@ -65,10 +68,6 @@
                         {{ form.jugador_img.label_tag }}
                         {{ form.jugador_img }}
                     </div>
-                    <div class="form-group">
-                        {{ form.identificacion_img.label_tag }}
-                        {{ form.identificacion_img }}
-                    </div>
 
                     
                     <div class="form-group">
@@ -88,6 +87,45 @@
                         <strong class="text-white d-block">Consejos</strong>
                         Ingresa la foto del jugador y la identificación oficial. (Ninguna de las dos son obligatorias). Ten en cuenta que también puedes editar los datos del jugador en cualquier momento incluyendo las fotografías.
                     </li>
+                    {%if equipo%}
+                    <li class="mb-2">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card bg-dark">
+                              <div class="card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                  <button class="btn btn-outline-success btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <div class="d-flex justify-content-between">
+                                        Agregar con Excel <span><img src="{% static 'images/sobresalir.png'%}" alt="" height="20" width="20"></span>
+                                    </div>
+                                  </button>
+                                </h2>
+                              </div>
+                              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div>
+                                        <p>Paso 1: Descarga la plantilla.</p>
+                                        <div class="d-flex justify-content-between">
+                                            <a href="{% url 'miliga:download_template' equipo.id %}" class="btn btn-success">Descargar plantilla</a>
+                                            <a href="{% url 'miliga:download_ejemplo' equipo.id %}" class="btn btn-link link-diferente">Ver ejemplo</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-4">
+                                        <p>Paso 2: Sube tu archivo</p>
+                                        <form enctype="multipart/form-data" action="{% url 'miliga:create_jugadores_archivo' equipo.id%}" method="post">
+                                            {% csrf_token %}
+                                            <input type="file" name="archivo_jugadores" class="form-control-file" accept=".xls,.xlsx" id="id_archivo_jugadores">
+                                            <input id="" type="submit" class="btn btn-primary btn-block mt-2    py-2 px-3" value="Registrar">
+                                        </form>
+                                    </div>
+
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </li>
+                    {%endif%}
                 </ul>
             </div>
         </div>

@@ -5,7 +5,9 @@
     select option {
         background-color:#343a40;
       }
-
+    select:disabled {
+        background-color: #404f62 !important;
+    }
 </style>
 {% endblock %}
 
@@ -43,7 +45,7 @@
                         {{ form.escudo_img }}
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="btn btn-primary py-2 w-75" value="Confirmar">
+                        <input id="btn_edit_equipo" type="submit" class="btn btn-primary py-2 w-75" value="Confirmar">
                     </div>
                 </form>  
             </div>
@@ -66,4 +68,25 @@
 
 
     
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+    $(document).ready(function() {
+        var liga_select = $('#id_liga').val();
+        if (liga_select !== '') {
+            $('#id_liga').prop('disabled', true);
+        }
+
+        $('#btn_edit_equipo').click(function() {
+            $('#id_equipo').prop('disabled', false);
+            $('#id_liga').prop('disabled', false);
+            $('#form_edit_jugador').submit();
+        });
+        
+    });
+
+
+</script>
 {% endblock %}

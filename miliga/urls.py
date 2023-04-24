@@ -21,5 +21,9 @@ urlpatterns = [
     path('jugador/<int:jugador_id>/',  views.detail_jugador, name='detail_jugador'),
     path('jugador/editar/<int:jugador_id>/',  views.edit_jugador, name='edit_jugador'),
     path('jugador/eliminar/<int:jugador_id>/',  views.delete_jugador, name='delete_jugador'),
+    path('create_jugadores_archivo/<int:equipo_id>/', views.create_jugadores_archivo, name='create_jugadores_archivo'),
+
+    path('download/<int:equipo_id>/', views.download_template, name='download_template'),
+    path('download_ejemplo/<int:equipo_id>/', views.download_ejemplo, name='download_ejemplo'),
 
 ]

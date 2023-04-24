@@ -31,6 +31,10 @@
         overflow: hidden; /* Oculta el contenido que se sale del contenedor */
         -webkit-line-clamp: 2; /* Establece el número máximo de líneas */
       }
+    
+    .link-diferente{
+        color: #ff080077 !important;
+    }
 </style>
 {% endblock %}
 
@@ -38,40 +42,54 @@
 
 
 <div class="site-section bg-dark">
-  <div class="container">
-    <div class="row">
-      {% for jugador in jugadores %}
-      <div class="col-lg-3 col-md-4 col-6 mb-4">
-        <div class="bg-light p-4 rounded ficha_jugador">
-          <div class="team-1 text-center" data-id="{{jugador.id}}">
-            <img
-              src="{% if jugador.jugador_img %}
-              {{jugador.jugador_img.url}}
-              {% else %}
-              {% static 'images/jugador_predeterminado.png' %}
-              {% endif %}"
-              alt="" height="100" width="100" class="rounded">
-            <p class="mb-1 texto-multilinea">{{jugador.nombre}}</p>
-            <p class="mb-1 text-truncate">{{jugador.equipo}}</p>
-            <p class="ver_mas mb-0">Ver jugador</p>
+  <div class="">
+    {% for equipo in equipos %}
+    <div class="accordion" id="accordion-{{equipo.id}}">
+      <div class="card bg-dark">
+        <div class="card-header" id="headingThree">
+          <h2 class="mb-0">
+            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#Three-{{equipo.id}}" aria-expanded="false" aria-controls="Three-{{equipo.id}}">
+              {{equipo.nombre}}
+            </button>
+          </h2>
+        </div>
+        <div id="Three-{{equipo.id}}" class="collapse" aria-labelledby="headingThree" data-parent="#accordion-{{equipo.id}}">
+          <div class="card-body row">
+            {% for jugador in equipo.jugador_set.all %}
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+              <div class="bg-light p-4 rounded ficha_jugador">
+                <div class="team-1 text-center" data-id="{{jugador.id}}">
+                  <img
+                    src="{% if jugador.jugador_img %}
+                    {{jugador.jugador_img.url}}
+                    {% else %}
+                    {% static 'images/jugador_predeterminado.png' %}
+                    {% endif %}"
+                    alt="" height="100" width="100" class="rounded">
+                  <p class="mb-1 texto-multilinea">{{jugador.nombre}}</p>
+                  <p class="mb-1 text-truncate">{{jugador.equipo}}</p>
+                  <p class="ver_mas mb-0">Ver jugador</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+              <div class=" p-4 rounded ficha_jugador">
+                <div class="team-1 text-center" data-id="">
+                  <a href="{%url 'miliga:detail_equipo' equipo.id%}" class="btn btn-link link-diferente">
+                    Ver equipo
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      {% endfor %}
     </div>
+    {%endfor%}
   </div>
 </div>
 
-<div class="site-section bg-dark">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10 ">
-        <a href="{%url 'miliga:create_jugador' 0%}" class="btn btn-primary
-          btn-lg btn-block">Registrar jugadores</a>
-      </div>
-    </div>
-  </div>
-</div>
 
 {% endblock %}
 
