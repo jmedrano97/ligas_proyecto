@@ -56,7 +56,7 @@
 
             <h1 class="text-white">{{jugador.nombre}}</h1>
             <p>{{jugador.ocupacion}}</p>
-            <p>{{jugador.equipo.nombre}}</p>
+            <p><a href="{%url 'miliga:detail_equipo' jugador.equipo.id%}">{{jugador.equipo.nombre}}</a></p>
             <p>{{jugador.liga.nombre}}</p>
             <p>{{jugador.fecha_nacimiento}}</p>
 

@@ -1,29 +1,30 @@
 from django.urls import path
-from django.contrib import admin
-from . import views
+from miliga.views.equipos import equipos,create_equipo,detail_equipo,edit_equipo,delete_equipo
+from miliga.views.general import index,matches,download_template,download_ejemplo
+from miliga.views.jugadores import jugadores,create_jugador,detail_jugador,edit_jugador,delete_jugador,create_jugadores_archivo
 
 
 app_name = 'miliga'
 
 urlpatterns = [
     
-    path('home', views.home, name='home'),
-    path('', views.index, name='index'),
+    path('', index, name='index'),
+    path('matches', matches, name='matches'),
 
-    path('equipos', views.equipos, name='equipos'),
-    path('create_equipo', views.create_equipo, name='create_equipo'),
-    path('equipo/<int:equipo_id>/',  views.detail_equipo, name='detail_equipo'),
-    path('equipo/editar/<int:equipo_id>/',  views.edit_equipo, name='edit_equipo'),
-    path('equipo/eliminar/<int:equipo_id>/',  views.delete_equipo, name='delete_equipo'),
+    path('equipos', equipos, name='equipos'),
+    path('create_equipo', create_equipo, name='create_equipo'),
+    path('equipo/<int:equipo_id>/',  detail_equipo, name='detail_equipo'),
+    path('equipo/editar/<int:equipo_id>/',  edit_equipo, name='edit_equipo'),
+    path('equipo/eliminar/<int:equipo_id>/',  delete_equipo, name='delete_equipo'),
 
-    path('jugadores', views.jugadores, name='jugadores'),
-    path('create_jugador/<int:equipo_id>/', views.create_jugador, name='create_jugador'),
-    path('jugador/<int:jugador_id>/',  views.detail_jugador, name='detail_jugador'),
-    path('jugador/editar/<int:jugador_id>/',  views.edit_jugador, name='edit_jugador'),
-    path('jugador/eliminar/<int:jugador_id>/',  views.delete_jugador, name='delete_jugador'),
-    path('create_jugadores_archivo/<int:equipo_id>/', views.create_jugadores_archivo, name='create_jugadores_archivo'),
+    path('jugadores', jugadores, name='jugadores'),
+    path('create_jugador/<int:equipo_id>/', create_jugador, name='create_jugador'),
+    path('jugador/<int:jugador_id>/',  detail_jugador, name='detail_jugador'),
+    path('jugador/editar/<int:jugador_id>/',  edit_jugador, name='edit_jugador'),
+    path('jugador/eliminar/<int:jugador_id>/',  delete_jugador, name='delete_jugador'),
+    path('create_jugadores_archivo/<int:equipo_id>/', create_jugadores_archivo, name='create_jugadores_archivo'),
 
-    path('download/<int:equipo_id>/', views.download_template, name='download_template'),
-    path('download_ejemplo/<int:equipo_id>/', views.download_ejemplo, name='download_ejemplo'),
+    path('download/<int:equipo_id>/', download_template, name='download_template'),
+    path('download_ejemplo/<int:equipo_id>/', download_ejemplo, name='download_ejemplo'),
 
 ]

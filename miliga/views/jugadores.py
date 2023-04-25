@@ -1,100 +1,11 @@
-import os
 from django.shortcuts import render
 from datetime import datetime
-
-from ligas import settings
-from .models import *
-from .forms import *
+from miliga.models import *
+from miliga.forms import *
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
-from django.contrib import messages
 import pandas as pd
 from django.db.models import Count
-from django.http import HttpResponse
-import openpyxl
-
-
-# Create your views here.
-
-def home(request):
-    return redirect('miliga:equipos')  
-
-def index(request):
-    context = {}
-    context['zona'] = 'index'
-    return render(request, 'miliga/index.html',context)
-
-
-def equipos(request):
-    context = {}
-    context['zona'] = 'equipos'
-
-    equipos = Equipo.objects.all().order_by('-id')
-    context['equipos'] = equipos
-    context = comprobar_mensajes(request, context)
-    return render(request, 'miliga/equipos/equipos.html', context)
-
-def create_equipo(request):
-    context = {}
-    context['zona'] = 'equipos'
-
-    if request.method == 'POST':
-        form = EquipoForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('miliga:equipos')
-    else:
-        form = EquipoForm()
-    
-    context['form'] = form
-    return render(request, 'miliga/equipos/create_equipo.html', context)
-
-def detail_equipo(request, equipo_id):
-    context = {}
-    context['zona'] = 'equipos'
-
-    equipo = get_object_or_404(Equipo, pk=equipo_id)
-    jugadores = Jugador.objects.filter(equipo=equipo_id)
-    context['equipo'] = equipo
-    context['jugadores'] = jugadores
-    context = comprobar_mensajes(request, context)
-    return render(request, 'miliga/equipos/detail_equipo.html', context)
-
-def edit_equipo(request, equipo_id):
-    context = {}
-    context['zona'] = 'equipos'
-
-    equipo = get_object_or_404(Equipo, pk=equipo_id)
-    if request.method == 'POST':
-        form = EquipoForm(request.POST, request.FILES, instance=equipo)
-        if form.is_valid():
-            form.save()
-            mensaje = {'desc':'El Equipo se ha editado correctamente', 'tipo':'success'}
-            request.session['mensaje'] = mensaje
-            return redirect('miliga:detail_equipo', equipo_id=equipo.id)
-        else:
-            mensaje = {'desc':'Vaya! ha ocurrido un error al editar el equipo', 'tipo':'danger'}
-            request.session['mensaje'] = mensaje
-            return redirect('miliga:edit_equipo', equipo_id=equipo.id)
-    else:
-        form = EquipoForm(instance=equipo)
-    
-    context['form'] = form
-    context['equipo'] = equipo
-    return render(request, 'miliga/equipos/edit_equipo.html', context)
-
-def delete_equipo(request, equipo_id):
-    context = {}
-    try:
-        equipo = get_object_or_404(Equipo, pk=equipo_id)
-        equipo.delete()
-        mensaje = {'desc':'El Equipo se ha eliminado correctamente', 'tipo':'success'}
-    except:
-        mensaje = {'desc':'Error al intentar eliminar Equipo', 'tipo':'danger'}
-
-    request.session['mensaje'] = mensaje
-    return redirect('miliga:equipos')
-
 
 
 def jugadores(request):
@@ -107,8 +18,6 @@ def jugadores(request):
     context['equipos'] = equipos
     context = comprobar_mensajes(request, context)
     return render(request, 'miliga/jugadores/jugadores.html', context)
-
-
 
 def create_jugador(request,equipo_id=0):
     context = {}
@@ -198,27 +107,31 @@ def delete_jugador(request, jugador_id):
 def create_jugadores_archivo(request,equipo_id=0):
     print('CREATE JUGADOR ARCHIVO')
     iguales={
-        "Nombre"                        : "nombre"           ,
+        "Nombre (*obligatorio)"         : "nombre"           ,
         "Teléfono"                      : "telefono"         ,
         "Numero Playera"                : "numero_playera"   ,
-        "Fecha de nacimiento (dd-mm-aa)": "fecha_nacimiento" ,
+        "Fecha de nacimiento (dd-mm-aa) (*obligatorio)": "fecha_nacimiento" ,
     }
     ls_ingresos = []
     if request.method == 'POST':
         archivo_excel = request.FILES['archivo_jugadores']
         extension = archivo_excel.name.split('.')[-1]
-        print('EXTENSION______')
-        print(extension)
         if extension in ['xls', 'xlsx']:
             try:
                 df = pd.read_excel(archivo_excel)
-                df = df.fillna('Vacio_99')
+                df = df.fillna('Vacio_codigo##10')
                 for index, row in df.iterrows():
                     dic_ingresos = {}
                     for col, val in row.items():
-                        if val == 'Vacio_99':
+                        if val == 'Vacio_codigo##10':
                             val = None
+                        if iguales[col] == 'fecha_nacimiento' or iguales[col] == 'nombre':
+                            if val == None:
+                                mensaje = {'desc':'Error, un campo obligatorio se encuentra vacío', 'tipo':'danger'}
+                                request.session['mensaje'] = mensaje
+                                return redirect('miliga:detail_equipo',equipo_id)
                         dic_ingresos[iguales[col]]=val
+                            
                     ls_ingresos.append(dic_ingresos)
 
                 equipo = get_object_or_404(Equipo, id=equipo_id)
@@ -234,8 +147,6 @@ def create_jugadores_archivo(request,equipo_id=0):
                         liga = equipo.liga,
                         nombre = i['nombre'],
                         telefono = i['telefono'],
-                        ocupacion = i['ocupacion'],
-                        jugador_img = i['jugador_img'],
                         numero_playera = i['numero_playera'],
                         fecha_nacimiento = i['fecha_nacimiento'],
                     )
@@ -252,25 +163,7 @@ def create_jugadores_archivo(request,equipo_id=0):
     return redirect('miliga:detail_equipo',equipo_id)
 
 
-def download_template(request, equipo_id=0):
-    equipo = get_object_or_404(Equipo, id=equipo_id)
-    filepath = os.path.join(settings.BASE_DIR, 'media/archivos/formato.xlsx')
-    workbook = openpyxl.load_workbook(filepath)
-    response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="plantilla_%s.xlsx"'%equipo.nombre
-    workbook.save(response)
-    
-    return response
 
-def download_ejemplo(request, equipo_id=0):
-    equipo = get_object_or_404(Equipo, id=equipo_id)
-    filepath = os.path.join(settings.BASE_DIR, 'media/archivos/formato_ejemplo.xlsx')
-    workbook = openpyxl.load_workbook(filepath)
-    response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="plantilla_de_ejemplo.xlsx"'
-    workbook.save(response)
-    
-    return response
 
 def comprobar_mensajes(request, context):
     if 'mensaje' in request.session:
