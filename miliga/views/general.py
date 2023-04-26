@@ -26,7 +26,7 @@ def index(request):
 def matches(request):
     context = {}
     context['zona'] = 'matches'
-    return render(request, 'miliga/proximamente.html',context)
+    return render(request, 'miliga/posiciones.html',context)
 
 def download_template(request, equipo_id=0):
     equipo = get_object_or_404(Equipo, id=equipo_id)
