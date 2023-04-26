@@ -25,14 +25,10 @@ def create_jugador(request,equipo_id=0):
 
     if request.method == 'POST':
         form = JugadorForm(request.POST, request.FILES)
-        print('CRATE______')
         if form.is_valid():
-            print('VALIDO______')
             form.save()
             mensaje = {'desc':'El Jugador se ha agregado correctamente', 'tipo':'success'}
             request.session['mensaje'] = mensaje
-            print('REDIRECT______')
-            print('equipo_id______', equipo_id)
             return redirect('miliga:detail_equipo', equipo_id=equipo_id)
         else:
             mensaje = {'desc':'Vaya! ha ocurrido un error al agregar el jugador', 'tipo':'danger'}
@@ -43,7 +39,7 @@ def create_jugador(request,equipo_id=0):
         if equipo_id != 0:
             equipo   = get_object_or_404(Equipo, id=equipo_id)
             context['equipo'] = equipo
-            form = JugadorForm(initial={'equipo': equipo, 'liga': equipo.liga})
+            form = JugadorForm(initial={'equipo': equipo})
         else:
             form = JugadorForm()
 
@@ -90,6 +86,25 @@ def edit_jugador(request, jugador_id):
     context['form'] = form
     context['jugador'] = jugador
     return render(request, 'miliga/jugadores/edit_jugador.html', context)
+
+def subir_img_jugador(request,jugador_id):
+    context = {}
+    context['zona'] = 'jugadores'
+    if request.method == 'POST':
+        jugador = get_object_or_404(Jugador, pk=jugador_id)
+        try:
+            jugador.jugador_img = request.FILES['jugador_img']
+            jugador.save()
+            mensaje = {'desc':'La imagen se ha subido correctamente', 'tipo':'success'}
+        except:
+            mensaje = {'desc':'Error al subir imagen', 'tipo':'danger'}
+
+        request.session['mensaje'] = mensaje
+        return redirect('miliga:detail_jugador', jugador_id=jugador.id)
+
+    return redirect('miliga:jugadores')
+
+
 
 def delete_jugador(request, jugador_id):
     context = {}
@@ -144,7 +159,6 @@ def create_jugadores_archivo(request,equipo_id=0):
 
                     jugador = Jugador(
                         equipo = equipo,
-                        liga = equipo.liga,
                         nombre = i['nombre'],
                         telefono = i['telefono'],
                         numero_playera = i['numero_playera'],

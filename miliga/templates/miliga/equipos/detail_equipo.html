@@ -81,7 +81,6 @@
                     height="300" width="300">
                 {% endif %}
                 <h1 class="text-white pt-2">{{equipo.nombre}}</h1>
-                <p>{{equipo.liga.nombre}}</p>
             </div>
         </div>
     </div>
@@ -125,8 +124,8 @@
         <div class="row justify-content-center">
             <div class="col-lg-10 ">
                 <a href="{%url 'miliga:edit_equipo' equipo.id%}" class="btn
-                    btn-primary
-                    btn-lg btn-block">Editar equipo</a>
+                    btn-secondary
+                    btn-lg">Editar equipo</a>
             </div>
         </div>
     </div>

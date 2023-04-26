@@ -27,7 +27,6 @@ fecha_nacimiento
 ocupacion
 numero_playera
 equipo
-liga
 jugador_img
 identificacion_img -->
 
@@ -71,39 +70,36 @@ identificacion_img -->
                         {{ form.equipo }}
                     </div>
                     <div class="form-group">
-                        {{ form.liga.label_tag }}
-                        {{ form.liga }}
-                    </div>
-                    <div class="form-group">
                         {{ form.jugador_img.label_tag }}
                         {{ form.jugador_img }}
                     </div>
-                    <div class="form-group">
-                        {{ form.identificacion_img.label_tag }}
-                        {{ form.identificacion_img }}
-                    </div>
 
 
 
 
-                    <div class="form-group">
-                        <input type="submit" id="btn_edit_jugador" class="btn btn-primary py-2 w-75" value="Confirmar">
+                    <div class="form-group mt-4">
+                        <input type="submit" id="btn_edit_jugador" class="btn btn-primary btn-block py-2" value="Confirmar">
                     </div>
                 </form>  
             </div>
 
             <div class="col-lg-4 ml-auto">
             <ul class="list-unstyled">
+                {%if jugador.equipo.escudo_img%}
+                <li class="mb-2">
+                    <img src="{{ jugador.equipo.escudo_img.url }}" alt="" height="200" width="200">
+                </li>
+                {%endif%}   
                 <li class="mb-2">
                 <strong class="text-white d-block">Formulario</strong>
                 Aquí podras editar el Jugador.
                 </li>
                 <li class="mb-2">
                     <strong class="text-white d-block">Consejos</strong>
-                    Para el escudo del equipo te recomendamos que sea una imagen png (transparente) para que sea adecuado para la web. De todas formas recuerda que puedes cambiarlo en cualquier momento.
+                    Para la imagen de jugador te recomendamos que sea una foto de frente, con fondo blanco y que se vea claramente el rostro del jugador.
                 </li>
                 <li class="mb-2">
-                    En este caso aparecen más campos de lo normal, recuerda que no todos son obligatorios, pero si los llenas, te ayudaran a que tu jugador sea más fácil de encontrar.
+                Recuerda que el teléfono y el numero de playera son campos opcionales.
                 </li>
             </ul>
             </div>

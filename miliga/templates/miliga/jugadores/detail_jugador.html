@@ -43,22 +43,33 @@
     </div>
 </div>
 
-<div class="container pt-3">
+<div class="container pt-3 mt-4 border border-white rounded">
     <div class="row align-items-end">
         <div class="col-lg-12 mx-auto text-center">
-            <img
-                src="{% if jugador.jugador_img %}
-                {{jugador.jugador_img.url}}
-                {% else %}
-                {% static 'images/jugador_predeterminado.png' %}
-                {% endif %}"
-                alt="" height="300" width="300" class="img-thumbnail ">
+            {% if jugador.jugador_img %}
+            <img src="{{jugador.jugador_img.url}}"alt="" height="300" width="300" class="img-thumbnail">
+            {% else %}
+            <img src="{% static 'images/jugador_predeterminado.png'%}"alt="" height="300" width="300" class="img-thumbnail">
+            <div class="">
+                <a id="btn_agregar_img" class="btn btn-sm btn-outline-secondary">Agregar foto</a>
+            </div>
+            <div id="div_agregar_img" class="border border-secondary rounded mt-1">
+                <form id="form_create_jugador" action="{% url 'miliga:subir_img_jugador' jugador.id%}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group mx-auto">
+                        <input type="file" name="jugador_img" class="" accept="image/*" id="id_jugador_img">
+                    </div>
+                    <div class="form-group">
+                        <input id="btn_create_jugador" type="submit" class="btn btn-primary btn-sm w-25" value="Ok">
+                    </div>
+                </form> 
+            </div>
 
+            {% endif %}
             <h1 class="text-white">{{jugador.nombre}}</h1>
             <p>{{jugador.ocupacion}}</p>
-            <p><a href="{%url 'miliga:detail_equipo' jugador.equipo.id%}">{{jugador.equipo.nombre}}</a></p>
-            <p>{{jugador.liga.nombre}}</p>
             <p>{{jugador.fecha_nacimiento}}</p>
+            <p><a href="{%url 'miliga:detail_equipo' jugador.equipo.id%}">{{jugador.equipo.nombre}}</a></p>
 
 
         </div>
@@ -69,18 +80,18 @@
 
 <br>
 
-<div class="site-section bg-dark">
+<div class="site-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10 text-center">
-                <a href="{%url 'miliga:edit_jugador' jugador.id%}" class="">Editar
+                <a href="{%url 'miliga:edit_jugador' jugador.id%}" class="btn btn-secondary">Editar
                     jugador</a>
             </div>
         </div>
     </div>
 </div>
 
-<div class="site-section bg-dark">
+<div class="site-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10 ">
@@ -90,4 +101,18 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $("#div_agregar_img").hide();
+        $("#btn_agregar_img").click(function() {
+            $("#div_agregar_img").show();
+        });
+
+
+    });
+
+
+</script>
 {% endblock %}
