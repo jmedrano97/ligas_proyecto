@@ -1,0 +1,234 @@
+{% extends 'miliga/base_1.html' %}
+{% load static %}
+{% block css %}
+<style type="text/css">
+    .tit {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 80px;
+        color: rgb(255, 255, 255);
+
+    }
+    .texto-multilinea {
+        display: -webkit-box; /* Establece el elemento como un contenedor flexible */
+        -webkit-box-orient: vertical; /* Establece la dirección de apilamiento vertical */
+        overflow: hidden; /* Oculta el contenido que se sale del contenedor */
+        -webkit-line-clamp: 2; /* Establece el número máximo de líneas */
+      }
+    .maximo{
+        max-width: 50%;
+    }
+
+    input[type=number] {
+        /* float: left; */
+        width: 55px;
+        height: 30px;
+        padding: 0;
+        font-size: 1.2em;
+        /* text-transform: uppercase; */
+        text-align: center;
+        color: #c92444;
+        border: 2px gray solid;
+        background: none;
+        outline: none;
+        /* pointer-events: none; */
+    }
+        
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="site-section bg-dark">
+    <div class="container">
+        <!-- <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="widget-next-match">
+                    <div class="widget-title">
+                        <h3>Juego en curso</h3>
+                    </div>
+                    <div class="widget-body mb-3">
+                        <div class="widget-vs">
+                            <div class="d-flex align-items-center
+                                justify-content-around justify-content-between
+                                w-100">
+                                <div class="team-1 text-center">
+                                    <img src="{% static 'images/logo_1.png'%}"
+                                        alt="Image">
+                                    <h3>Football League</h3>
+                                </div>
+                                <div>
+                                    <span class="vs"><span>VS</span></span>
+                                </div>
+                                <div class="team-2 text-center">
+                                    <img src="{% static 'images/logo_2.png'%}"
+                                        alt="Image">
+                                    <h3>Soccer</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center widget-vs-contents mb-4">
+                        <h4>World Cup League</h4>
+                        <p class="mb-5">
+                            <span class="d-block">December 20th, 2020</span>
+                            <span class="d-block">9:30 AM GMT+0</span>
+                            <strong class="text-primary">New Euro Arena</strong>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        {% for jornada in jornadas %}
+        <div class="col-12 title-section">
+            <h2 class="heading">Jornada {{jornada.numero}}</h2>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12 title-section">
+                <h2 class="heading">Siguientes partidos</h2>
+            </div>
+            {% for partido in jornada.partido_set.all %}
+            {%if not partido.finalizado %}
+            <div class="col-lg-6 mb-4">
+                <div class="bg-light p-4 rounded">
+                    <div class="widget-body">
+                        <div class="widget-vs">
+                            <div class="d-flex align-items-center
+                                justify-content-around justify-content-between
+                                w-100">
+                                <div class="team-1 text-center flex-grow-1 maximo">
+                                    <img
+                                    src="{% if partido.equipo_local.escudo_img %}
+                                    {{partido.equipo_local.escudo_img.url}}
+                                    {% else %}
+                                    {% static 'images/jugador_predeterminado.png' %}
+                                    {% endif %}"
+                                    alt="" height="100" width="100" class="rounded">
+                                    <h3 class="texto-multilinea">{{partido.equipo_local}}</h3>
+                                </div>
+                                <div>
+                                    <span class="vs flex-grow-1 maximo"><span>VS</span></span>
+                                </div>
+                                <div class="team-2 text-center flex-grow-1 maximo">
+                                    <img
+                                    src="{% if partido.equipo_visitante.escudo_img %}
+                                    {{partido.equipo_visitante.escudo_img.url}}
+                                    {% else %}
+                                    {% static 'images/jugador_predeterminado.png' %}
+                                    {% endif %}"
+                                    alt="" height="100" width="100" class="rounded">
+                                    <h3 class="texto-multilinea">{{partido.equipo_visitante}}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center widget-vs-contents mb-4">
+                        <h4>Mi Liga</h4>
+                        <p class="mb-5">
+                            <span class="d-block">December 20th, 2020</span>
+                            <span class="d-block">9:30 AM GMT+0</span>
+                            <strong class="text-primary">{{partido.campo_juego}}</strong>
+                        </p>
+                        <p class="mb-0"><a href="{% url 'miliga:finalizar_partido' 1 partido.id %}"
+                            class="btn btn-outline-primary btn-sm">Finalizar</a></p>
+                    </div>
+
+                </div>
+            </div>
+            {%endif%}
+            {%endfor%}
+
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <p class="heading">Partidos jugados</p>
+            </div>
+            <div class="col-lg-12 mb-4">
+                <div class="bg-light rounded">
+                    <div class="widget-body">
+                        <div class="row justify-content-between">
+                            <div class="">
+                                <div class="">
+                                    <div>
+                                        <h3 class="text-truncate">partido.equipo_local</h3>
+                                    </div>
+                                    <div>
+                                        <span class=""><input type="number"></span>
+                                        <span class=""><span>VS</span></span>
+                                        <span class=""><input type="number"></span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-truncate">partido.equipo_visitante</h3>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a href="" class="btn btn-outline-primary btn-sm">Resultado</a>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="mb-0"><a href=""
+                                    class="btn btn-outline-secondary btn-sm">No Finalizado</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="text-center widget-vs-contents mb-4">
+                        <h4>Mi Liga</h4>
+                        <p class="mb-0"><a href=""
+                            class="btn btn-outline-primary btn-sm">Finalizar</a></p>
+                    </div> -->
+
+                </div>
+            </div>
+            {% for partido in jornada.partido_set.all %}
+            {%if partido.finalizado %}
+            <div class="col-lg-12 mb-4">
+                <div class="bg-light p-4 rounded">
+                    <div class="widget-body">
+                        <div class="widget-vs">
+                            <div class="d-flex justify-content-between w-100">
+                                <div class="team-1 text-center flex-grow-1 maximo">
+                                    <h3 class="texto-multilinea">{{partido.equipo_local}}</h3>
+                                </div>
+                                <div>
+                                    <span class="flex-grow-1 maximo"><span>VS</span></span>
+                                </div>
+                                <div class="team-2 text-center flex-grow-1 maximo">
+                                    <h3 class="texto-multilinea">{{partido.equipo_visitante}}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center widget-vs-contents mb-4">
+                        <h4>Mi Liga</h4>
+                        <p class="mb-0"><a href="{% url 'miliga:finalizar_partido' 0 partido.id %}"
+                            class="btn btn-outline-primary btn-sm">Finalizar</a></p>
+                    </div>
+
+                </div>
+            </div>
+            {%endif%}
+            {%endfor%}
+
+        </div>
+        {%endfor%}
+
+
+
+    </div>
+</div>
+
+<div class="site-section bg-dark">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10 ">
+          <a href="{%url 'miliga:create_equipo'%}" class="btn btn-primary btn-lg btn-block">Crear nuevo equipo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

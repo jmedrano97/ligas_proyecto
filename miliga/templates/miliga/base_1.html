@@ -65,6 +65,7 @@
             <nav class="site-navigation position-relative text-right" role="navigation">
               <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                 <li class="{% if zona == 'index' %}active{% endif %}"><a href="{% url 'miliga:index' %}" class="nav-link">Home</a></li>
+                <li class="{% if zona == 'posiciones' %}active{% endif %}"><a href="{% url 'miliga:posiciones' %}">posiciones</a></li>
                 <li class="{% if zona == 'equipos' %}active{% endif %}"><a href="{% url 'miliga:equipos' %}">Equipos</a></li>
                 <li class="{% if zona == 'jugadores' %}active{% endif %}"><a href="{% url 'miliga:jugadores' %}" class="nav-link">Jugadores</a></li>
                 <li class="{% if zona == 'matches' %}active{% endif %}"><a href="{% url 'miliga:matches' %}" class="nav-link">Matches</a></li>
