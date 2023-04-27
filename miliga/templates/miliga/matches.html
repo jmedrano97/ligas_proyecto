@@ -152,23 +152,27 @@
             <div class="col-lg-12 mb-4">
                 <div class="bg-light p-1 rounded">
                     <div class="widget-body">
-                        <div class="widget-vs d-flex">
+                        <div class="widget-vs d-flex flex-column flex-md-column flex-lg-row ">
                             <div class="d-flex justify-content-between w-100">
-                                <div class="team-1 text-center flex-grow-1 maximo nom_equipo">
-                                    <h3 class="texto-multilinea">{{partido.equipo_local}}</h3>
+                                <div class="team-1 text-center flex-grow-1 maximo d-flex justify-content-around">
+                                    <h3 class="texto-multilinea nom_equipo">{{partido.equipo_local}}</h3>
+                                    <span class=""><input type="number"></span>
                                 </div>
                                 <div>
-                                    <span class=""><input type="number"></span>
                                     <span class="flex-grow-1 maximo"><span>VS</span></span>
-                                    <span class=""><input type="number"></span>
                                 </div>
-                                <div class="team-2 text-center flex-grow-1 maximo nom_equipo">
-                                    <h3 class="texto-multilinea">{{partido.equipo_visitante}}</h3>
+                                <div class="team-2 text-center flex-grow-1 maximo d-flex justify-content-around">
+                                    <span class=""><input type="number"></span>
+                                    <h3 class="texto-multilinea nom_equipo">{{partido.equipo_visitante}}</h3>
                                 </div>
                             </div>
-                            <div class="text-center widget-vs-contents mb-4">
+                            <div class="text-center widget-vs-contents mb-3">
                                 <p class="mb-0"><a href="{% url 'miliga:finalizar_partido' 0 partido.id %}"
-                                    class="btn btn-outline-primary btn-sm">Finalizar</a></p>
+                                    class="btn btn-outline-primary btn-sm">Confirmar resultado</a></p>
+                            </div>
+                            <div class="text-center widget-vs-contents mb-1">
+                                <p class="mb-0"><a href="{% url 'miliga:finalizar_partido' 0 partido.id %}"
+                                    class="btn btn-outline-secondary btn-sm">X</a></p>
                             </div>
                         </div>
                     </div>
@@ -190,7 +194,7 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-10 ">
-          <a href="{%url 'miliga:create_equipo'%}" class="btn btn-primary btn-lg btn-block">Crear nuevo equipo</a>
+          <a href="{%url 'miliga:crear_jornada'%}" class="btn btn-primary btn-lg btn-block">crear_jornada</a>
         </div>
       </div>
     </div>

@@ -40,6 +40,7 @@ class Jugador(models.Model):
 
 class Jornada(models.Model):
     numero = models.IntegerField()
+    vuelta = models.IntegerField(default=1)
     fecha_inicio = models.DateField(blank=True, null=True)
     fecha_terminacion = models.DateField(blank=True, null=True)
     def __str__(self):

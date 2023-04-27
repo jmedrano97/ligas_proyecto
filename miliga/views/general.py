@@ -1,4 +1,7 @@
 import os
+import itertools
+import random
+import datetime
 from django.shortcuts import render
 
 from ligas import settings
@@ -45,6 +48,44 @@ def finalizar_partido(request, opcion ,partido_id):
     partido.finalizado = op
     partido.save()
     return redirect('miliga:matches')
+
+def crear_jornada(request):
+    # obtener ultima jornada
+    if Jornada.objects.exists():
+        ultima_jornada  = Jornada.objects.all().order_by('-numero').first()
+        jornada_acutual = ultima_jornada.numero+1
+        jornada = Jornada(numero=jornada_acutual)
+        jornada.save()
+    else:
+        jornada = Jornada(numero=1,vuelta=1)
+        jornada.save()
+    vuelta=jornada.vuelta
+
+    # obtner campo de juego random
+    campo = CampoDeJuego.objects.all().order_by('?').first()
+    # obtener equipos
+    equipos = list(Equipo.objects.all().order_by('?'))
+    # Generamos todas las combinaciones de dos equipos sin repetir
+    parejas = list(itertools.combinations(equipos, 2))
+    random.shuffle(parejas)
+    rolados_ls = []
+
+    fecha = datetime.date.today()
+
+    for i, pareja in enumerate(parejas):
+        # Solo creamos un partido si el equipo local no ha jugado contra el equipo visitante en esta vuelta
+        if pareja[0] not in rolados_ls and pareja[1] not in rolados_ls:
+            if not Partido.objects.filter(equipo_local=pareja[0], equipo_visitante=pareja[1], jornada__vuelta=vuelta).exists():
+                rolados_ls.append(pareja[0])
+                rolados_ls.append(pareja[1])
+                partido = Partido(fecha=fecha,campo_juego=campo,jornada=jornada,equipo_local=pareja[0], equipo_visitante=pareja[1])
+                partido.save()
+    
+    return redirect('miliga:matches')
+
+
+
+
 
 def download_template(request, equipo_id=0):
     equipo = get_object_or_404(Equipo, id=equipo_id)
