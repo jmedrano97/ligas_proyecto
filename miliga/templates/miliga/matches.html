@@ -32,6 +32,9 @@
         outline: none;
         /* pointer-events: none; */
     }
+    .nom_equipo{
+        max-width: 320px;
+    }
         
 </style>
 {% endblock %}
@@ -144,67 +147,30 @@
             <div class="col-12">
                 <p class="heading">Partidos jugados</p>
             </div>
-            <div class="col-lg-12 mb-4">
-                <div class="bg-light rounded">
-                    <div class="widget-body">
-                        <div class="row justify-content-between">
-                            <div class="">
-                                <div class="">
-                                    <div>
-                                        <h3 class="text-truncate">partido.equipo_local</h3>
-                                    </div>
-                                    <div>
-                                        <span class=""><input type="number"></span>
-                                        <span class=""><span>VS</span></span>
-                                        <span class=""><input type="number"></span>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-truncate">partido.equipo_visitante</h3>
-                                    </div>
-                                </div>
-                                <div>
-                                    <a href="" class="btn btn-outline-primary btn-sm">Resultado</a>
-                                </div>
-                            </div>
-                            <div>
-                                <p class="mb-0"><a href=""
-                                    class="btn btn-outline-secondary btn-sm">No Finalizado</a></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- <div class="text-center widget-vs-contents mb-4">
-                        <h4>Mi Liga</h4>
-                        <p class="mb-0"><a href=""
-                            class="btn btn-outline-primary btn-sm">Finalizar</a></p>
-                    </div> -->
-
-                </div>
-            </div>
             {% for partido in jornada.partido_set.all %}
             {%if partido.finalizado %}
             <div class="col-lg-12 mb-4">
-                <div class="bg-light p-4 rounded">
+                <div class="bg-light p-1 rounded">
                     <div class="widget-body">
-                        <div class="widget-vs">
+                        <div class="widget-vs d-flex">
                             <div class="d-flex justify-content-between w-100">
-                                <div class="team-1 text-center flex-grow-1 maximo">
+                                <div class="team-1 text-center flex-grow-1 maximo nom_equipo">
                                     <h3 class="texto-multilinea">{{partido.equipo_local}}</h3>
                                 </div>
                                 <div>
+                                    <span class=""><input type="number"></span>
                                     <span class="flex-grow-1 maximo"><span>VS</span></span>
+                                    <span class=""><input type="number"></span>
                                 </div>
-                                <div class="team-2 text-center flex-grow-1 maximo">
+                                <div class="team-2 text-center flex-grow-1 maximo nom_equipo">
                                     <h3 class="texto-multilinea">{{partido.equipo_visitante}}</h3>
                                 </div>
                             </div>
+                            <div class="text-center widget-vs-contents mb-4">
+                                <p class="mb-0"><a href="{% url 'miliga:finalizar_partido' 0 partido.id %}"
+                                    class="btn btn-outline-primary btn-sm">Finalizar</a></p>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="text-center widget-vs-contents mb-4">
-                        <h4>Mi Liga</h4>
-                        <p class="mb-0"><a href="{% url 'miliga:finalizar_partido' 0 partido.id %}"
-                            class="btn btn-outline-primary btn-sm">Finalizar</a></p>
                     </div>
 
                 </div>
