@@ -2,7 +2,7 @@ from django.urls import path
 from miliga.views.equipos import equipos,create_equipo,detail_equipo,edit_equipo,delete_equipo
 from miliga.views.general import index,download_template,download_ejemplo
 from miliga.views.jugadores import jugadores,create_jugador,detail_jugador,edit_jugador,delete_jugador,create_jugadores_archivo,subir_img_jugador
-from miliga.views.matches import posiciones,matches,finalizar_partido,crear_jornada
+from miliga.views.matches import posiciones,matches,finalizar_partido,crear_jornada,confirmar_resultado
 
 
 
@@ -16,6 +16,8 @@ urlpatterns = [
     path('posiciones', posiciones, name='posiciones'),
     path('finalizar_partido/<int:opcion>/<int:partido_id>/', finalizar_partido, name='finalizar_partido'),
     path('crear_jornada', crear_jornada, name='crear_jornada'),
+    path('confirmar_resultado/<int:partido_id>/', confirmar_resultado, name='confirmar_resultado'),
+
 
     path('equipos', equipos, name='equipos'),
     path('create_equipo', create_equipo, name='create_equipo'),

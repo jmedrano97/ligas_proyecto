@@ -32,57 +32,28 @@
         outline: none;
         /* pointer-events: none; */
     }
+
     .nom_equipo{
-        max-width: 320px;
+        width: 170px;
+    }
+        
+    @media (max-width: 768px) {
+        .nom_equipo {
+          width: 120px;
+        }
+      }
+    .resultado_conf{
+        font-size: 18px;
+        font-weight: bold;
     }
         
 </style>
 {% endblock %}
 {% block content %}
-
 <div class="site-section bg-dark">
     <div class="container">
-        <!-- <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="widget-next-match">
-                    <div class="widget-title">
-                        <h3>Juego en curso</h3>
-                    </div>
-                    <div class="widget-body mb-3">
-                        <div class="widget-vs">
-                            <div class="d-flex align-items-center
-                                justify-content-around justify-content-between
-                                w-100">
-                                <div class="team-1 text-center">
-                                    <img src="{% static 'images/logo_1.png'%}"
-                                        alt="Image">
-                                    <h3>Football League</h3>
-                                </div>
-                                <div>
-                                    <span class="vs"><span>VS</span></span>
-                                </div>
-                                <div class="team-2 text-center">
-                                    <img src="{% static 'images/logo_2.png'%}"
-                                        alt="Image">
-                                    <h3>Soccer</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="text-center widget-vs-contents mb-4">
-                        <h4>World Cup League</h4>
-                        <p class="mb-5">
-                            <span class="d-block">December 20th, 2020</span>
-                            <span class="d-block">9:30 AM GMT+0</span>
-                            <strong class="text-primary">New Euro Arena</strong>
-                        </p>
-
-                    </div>
-                </div>
-            </div>
-        </div> -->
         {% for jornada in jornadas %}
+        {% if jornada.jornada_terminada == False %}
         <div class="col-12 title-section">
             <h2 class="heading">Jornada {{jornada.numero}}</h2>
         </div>
@@ -149,40 +120,68 @@
             </div>
             {% for partido in jornada.partido_set.all %}
             {%if partido.finalizado %}
-            <div class="col-lg-12 mb-4">
-                <div class="bg-light p-1 rounded">
-                    <div class="widget-body">
-                        <div class="widget-vs d-flex flex-column flex-md-column flex-lg-row ">
-                            <div class="d-flex justify-content-between w-100">
-                                <div class="team-1 text-center flex-grow-1 maximo d-flex justify-content-around">
-                                    <h3 class="texto-multilinea nom_equipo">{{partido.equipo_local}}</h3>
-                                    <span class=""><input type="number"></span>
+                {%if partido.resultado_confirmado %}
+                <div class="col-lg-12 mb-4">
+                    <div class="bg-light p-1 rounded">
+                        <div class="widget-body">
+                            <div class="widget-vs d-flex flex-column flex-md-column flex-lg-row ">
+                                <div class="d-flex justify-content-between w-100">
+                                    <div class="team-1 text-center flex-grow-1 maximo d-flex justify-content-around">
+                                        <h3 class="texto-multilinea nom_equipo">{{partido.equipo_local}}</h3>
+                                        <span class="resultado_conf">{{partido.goles_local}}</span>
+                                    </div>
+                                    <div>
+                                        <span class="flex-grow-1 maximo"><span>VS</span></span>
+                                    </div>
+                                    <div class="team-2 text-center flex-grow-1 maximo d-flex justify-content-around">
+                                        <span class="resultado_conf">{{partido.goles_visitante}}</span>
+                                        <h3 class="texto-multilinea nom_equipo">{{partido.equipo_visitante}}</h3>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="flex-grow-1 maximo"><span>VS</span></span>
-                                </div>
-                                <div class="team-2 text-center flex-grow-1 maximo d-flex justify-content-around">
-                                    <span class=""><input type="number"></span>
-                                    <h3 class="texto-multilinea nom_equipo">{{partido.equipo_visitante}}</h3>
-                                </div>
-                            </div>
-                            <div class="text-center widget-vs-contents mb-3">
-                                <p class="mb-0"><a href="{% url 'miliga:finalizar_partido' 0 partido.id %}"
-                                    class="btn btn-outline-primary btn-sm">Confirmar resultado</a></p>
-                            </div>
-                            <div class="text-center widget-vs-contents mb-1">
-                                <p class="mb-0"><a href="{% url 'miliga:finalizar_partido' 0 partido.id %}"
-                                    class="btn btn-outline-secondary btn-sm">X</a></p>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
-            </div>
+                {%else%}
+                <div class="col-lg-12 mb-4">
+                    <div class="bg-light p-1 rounded">
+                        <div class="widget-body">
+                            <div class="widget-vs d-flex flex-column flex-md-column flex-lg-row ">
+                                    <form id="" class="form_confirmar_resultado_{{partido.id}} d-flex justify-content-between w-100" action="{% url 'miliga:confirmar_resultado' partido.id%}" method="post">
+                                        {% csrf_token %}
+                                        <div class="team-1 text-center flex-grow-1 maximo d-flex justify-content-around">
+                                            <h3 class="texto-multilinea nom_equipo">{{partido.equipo_local}}</h3>
+                                            <span class=""><input name="goles_local" type="number"></span>
+                                        </div>
+                                        <div>
+                                            <span class="flex-grow-1 maximo"><span>VS</span></span>
+                                        </div>
+                                        <div class="team-2 text-center flex-grow-1 maximo d-flex justify-content-around">
+                                            <span class=""><input name="goles_visitante" type="number"></span>
+                                            <h3 class="texto-multilinea nom_equipo">{{partido.equipo_visitante}}</h3>
+                                        </div>
+                                    </form>
+
+                                <div class="text-center widget-vs-contents mb-3">
+                                    <p class="mb-0"><a id=""
+                                        class="confirmar_resultado btn btn-outline-primary btn-sm" data-id="{{partido.id}}">Confirmar resultado</a></p>
+                                </div>
+                                <div class="text-center widget-vs-contents mb-1">
+                                    <p class="mb-0"><a href="{% url 'miliga:finalizar_partido' 0 partido.id %}"
+                                        class="btn btn-outline-secondary btn-sm">X</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {%endif%}
             {%endif%}
             {%endfor%}
 
         </div>
+        {%endif%}
         {%endfor%}
 
 
@@ -194,11 +193,25 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-10 ">
-          <a href="{%url 'miliga:crear_jornada'%}" class="btn btn-primary btn-lg btn-block">crear_jornada</a>
+          <a href="{%url 'miliga:crear_jornada'%}" class="btn btn-primary btn-lg btn-block">crear jornada</a>
         </div>
       </div>
     </div>
   </div>
 
 
+{% endblock %}
+{% block scripts %}
+<script>
+
+    $(document).ready(function() {
+        $('.confirmar_resultado').click(function() {
+            var id = $(this).data('id');
+            $('.form_confirmar_resultado_'+id).submit();
+        });
+        
+    });
+
+
+</script>
 {% endblock %}

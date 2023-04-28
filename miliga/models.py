@@ -16,6 +16,32 @@ class Equipo(models.Model):
     goles_a_favor      = models.IntegerField(default=0)
     goles_en_contra    = models.IntegerField(default=0)
     diferencia_goles   = models.IntegerField(default=0)
+
+    def agregar_partido_ganado(self, goles_a_favor, goles_en_contra):
+        self.partidos_juados += 1
+        self.puntuacion += 3
+        self.partidos_ganados += 1
+        self.goles_a_favor += goles_a_favor
+        self.goles_en_contra += goles_en_contra
+        self.diferencia_goles = self.goles_a_favor - self.goles_en_contra
+        self.save()
+    
+    def agregar_partido_empatado(self, goles_a_favor, goles_en_contra):
+        self.partidos_juados += 1
+        self.puntuacion += 1
+        self.partidos_empatados += 1
+        self.goles_a_favor += goles_a_favor
+        self.goles_en_contra += goles_en_contra
+        self.diferencia_goles = self.goles_a_favor - self.goles_en_contra
+        self.save()
+    
+    def agregar_partido_perdido(self, goles_a_favor, goles_en_contra):
+        self.partidos_juados += 1
+        self.partidos_perdidos += 1
+        self.goles_a_favor += goles_a_favor
+        self.goles_en_contra += goles_en_contra
+        self.diferencia_goles = self.goles_a_favor - self.goles_en_contra
+        self.save()
     
     def __str__(self):
         return self.nombre
@@ -44,6 +70,8 @@ class Jornada(models.Model):
     vuelta = models.IntegerField(default=1)
     fecha_inicio = models.DateField(blank=True, null=True)
     fecha_terminacion = models.DateField(blank=True, null=True)
+    jornada_terminada     = models.BooleanField(default=False)
+
     def __str__(self):
         return str(self.numero)
 
@@ -66,6 +94,7 @@ class Partido(models.Model):
     goles_visitante  = models.PositiveIntegerField(blank=True, null=True)
     jornada          = models.ForeignKey(Jornada, on_delete=models.CASCADE, default=0)
     finalizado       = models.BooleanField(default=False)
+    resultado_confirmado       = models.BooleanField(default=False)
     
     class Meta:
         unique_together = ('fecha', 'hora_inicio', 'campo_juego')
