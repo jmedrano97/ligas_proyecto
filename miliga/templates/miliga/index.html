@@ -40,7 +40,7 @@
         <div class="d-flex align-items-center">
           <div class="site-logo">
             <a href="index.html">
-              <img src="{% static 'images/miliga.png'%}" alt="Logo">
+              <img height="100" src="{% static 'images/miliga.png'%}" alt="Logo">
             </a>
           </div>
           <div class="ml-auto">
@@ -52,6 +52,30 @@
                 <li class="{% if zona == 'equipos' %}active{% endif %}"><a href="{% url 'miliga:equipos' %}">Equipos</a></li>
                 <li class="{% if zona == 'jugadores' %}active{% endif %}"><a href="{% url 'miliga:jugadores' %}" class="nav-link">Jugadores</a></li>
                 <li class="{% if zona == 'home' %}active{% endif %}"><a href="contact.html" class="nav-link">Contact</a></li>
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <span><img src="{% static 'images/usuario.png' %}" height="20" width="20" alt=""></span>
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">{{user.username}}</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'miliga:salir' %}">Cerrar Sesión</a>
+                  </div>
+                </li>
+                {%else%}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <span><img src="{% static 'images/usuario.png' %}" height="20" width="20" alt=""></span>
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'miliga:registrarse' %}">Crear usuario</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'miliga:iniciar_sesion' %}">Iniciar sesión</a>
+                  </div>
+                </li>
+                {%endif%}
+
               </ul>
             </nav>
 

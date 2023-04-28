@@ -1,0 +1,43 @@
+{% extends 'miliga/base_1.html' %}
+
+{% block css %}
+<style type="text/css">
+    label{
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+{{error}}
+<div class="site-section bg-dark">
+    <div class="container row justify-content-center">
+        <div class="col-lg-8">
+            <h1>{{vista}}</h1> 
+            <form method="post" action="">
+                {% csrf_token %}
+                {{form.as_p}}
+                <div class="form-group mt-5">
+                    <input type="submit" class="btn btn-primary btn-block py-2 px-2" value="Registrarme">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+
+    $(document).ready(function() {
+        $('#id_username').addClass('form-control');
+        $('#id_password').addClass('form-control');
+        $('#id_password1').addClass('form-control');
+        $('#id_password2').addClass('form-control');
+        
+        
+    });
+</script>
+{% endblock %}

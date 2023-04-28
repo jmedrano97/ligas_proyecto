@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'miliga',
     'tasks',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+RECAPTCHA_PUBLIC_KEY = '6Le6scYlAAAAAExheUHEURV5pK-IDxJBKUL8QHmF'
+RECAPTCHA_PRIVATE_KEY = '6Le6scYlAAAAANEORTqH6-O0Z4LXhVtLmziok8Kw'

@@ -1,6 +1,6 @@
 from django.urls import path
 from miliga.views.equipos import equipos,create_equipo,detail_equipo,edit_equipo,delete_equipo
-from miliga.views.general import index,download_template,download_ejemplo
+from miliga.views.general import index,download_template,download_ejemplo,registrarse,salir,iniciar_sesion
 from miliga.views.jugadores import jugadores,create_jugador,detail_jugador,edit_jugador,delete_jugador,create_jugadores_archivo,subir_img_jugador
 from miliga.views.matches import posiciones,matches,finalizar_partido,crear_jornada,confirmar_resultado
 
@@ -11,6 +11,9 @@ app_name = 'miliga'
 urlpatterns = [
     
     path('', index, name='index'),
+    path('registrarse', registrarse, name='registrarse'),
+    path('salir', salir, name='salir'),
+    path('iniciar_sesion', iniciar_sesion, name='iniciar_sesion'),
 
     path('matches', matches, name='matches'),
     path('posiciones', posiciones, name='posiciones'),
