@@ -8,6 +8,7 @@ class Equipo(models.Model):
     foto_img   = models.ImageField(upload_to='equipos/', blank=True, null=True)
     activo     = models.BooleanField(default=True)
 
+    partidos_juados    = models.IntegerField(default=0)
     puntuacion         = models.IntegerField(default=0)
     partidos_ganados   = models.IntegerField(default=0)
     partidos_empatados = models.IntegerField(default=0)
