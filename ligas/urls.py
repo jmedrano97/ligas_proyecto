@@ -19,11 +19,9 @@ from django.conf.urls.static import static
 
 from django.contrib import admin
 from django.urls import path
-from tasks import views
 from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('miliga.urls')),
-    path('tasks/',include('tasks.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
