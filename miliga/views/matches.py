@@ -7,6 +7,8 @@ from miliga.forms import *
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.db import transaction
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 def posiciones(request):
@@ -26,6 +28,7 @@ def matches(request):
     context = comprobar_mensajes(request, context)
     return render(request, 'miliga/matches.html',context)
 
+@login_required
 def finalizar_partido(request, opcion ,partido_id):
     op = False
     if opcion == 1:
@@ -35,6 +38,7 @@ def finalizar_partido(request, opcion ,partido_id):
     partido.save()
     return redirect('miliga:matches')
 
+@login_required
 def crear_jornada(request):
     # obtener ultima jornada
     if Jornada.objects.exists():
@@ -69,6 +73,7 @@ def crear_jornada(request):
     
     return redirect('miliga:matches')
 
+@login_required
 def confirmar_resultado(request, partido_id):
     context = {}
     if request.method == 'POST':

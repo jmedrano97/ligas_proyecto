@@ -19,6 +19,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -30,6 +31,26 @@ def index(request):
     context['zona'] = 'index'
     context = comprobar_mensajes(request, context)
     return render(request, 'miliga/index.html',context)
+
+def contacto(request):
+    context = {}
+    context['zona'] = 'contacto'
+    context = comprobar_mensajes(request, context)
+    if request.method == 'GET':
+        context['form'] = ContactoForm()
+        return render(request, 'miliga/contacto.html', context)
+    else:
+        form = ContactoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            mensaje = {'desc':'Mensaje enviado correctamente', 'tipo':'success'}
+            request.session['mensaje'] = mensaje
+            return redirect('miliga:contacto')
+        else:
+            mensaje = {'desc':'Error al enviar mensaje', 'tipo':'danger'}
+            request.session['mensaje'] = mensaje
+            context = comprobar_mensajes(request, context)
+            return render(request, 'miliga/contacto.html', context)
 
 def registrarse(request):
     context = {}
@@ -95,6 +116,14 @@ def download_ejemplo(request, equipo_id=0):
     response['Content-Disposition'] = 'attachment; filename="plantilla_de_ejemplo.xlsx"'
     workbook.save(response)
     
+    return response
+
+def download_cv(request):
+    filepath = os.path.join(settings.BASE_DIR, 'media/archivos/CV.pdf')
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="Jaime_Medrano.pdf"'
+    with open(filepath, 'rb') as pdf:
+        response.write(pdf.read())
     return response
 
 def comprobar_mensajes(request, context):

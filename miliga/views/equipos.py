@@ -3,6 +3,7 @@ from miliga.models import *
 from miliga.forms import *
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 def equipos(request):
     context = {}
@@ -13,7 +14,7 @@ def equipos(request):
     context = comprobar_mensajes(request, context)
     return render(request, 'miliga/equipos/equipos.html', context)
 
-
+@login_required
 def create_equipo(request):
     context = {}
     context['zona'] = 'equipos'
@@ -41,7 +42,7 @@ def detail_equipo(request, equipo_id):
     context = comprobar_mensajes(request, context)
     return render(request, 'miliga/equipos/detail_equipo.html', context)
 
-
+@login_required
 def edit_equipo(request, equipo_id):
     context = {}
     context['zona'] = 'equipos'
@@ -65,7 +66,7 @@ def edit_equipo(request, equipo_id):
     context['equipo'] = equipo
     return render(request, 'miliga/equipos/edit_equipo.html', context)
 
-
+@login_required
 def delete_equipo(request, equipo_id):
     context = {}
     try:

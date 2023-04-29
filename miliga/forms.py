@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Equipo, Jugador
+from .models import Equipo, Jugador, Contacto
 from django import forms
 
 class EquipoForm(ModelForm):
@@ -25,4 +25,15 @@ class JugadorForm(ModelForm):
             'equipo': forms.Select(attrs={'class':'form-control'}),
             'jugador_img': forms.FileInput(attrs={'class':'form-control-file'}),
             'identificacion_img': forms.FileInput(attrs={'class':'form-control-file'}),
+        }
+
+class ContactoForm(ModelForm):
+    class Meta:
+        model = Contacto
+        fields = ['nombre','email','telefono','mensaje']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class':'form-control','placeholder': 'Campo obligatorio*'}),
+            'email': forms.EmailInput(attrs={'class':'form-control','placeholder': 'Campo obligatorio*'}),
+            'telefono': forms.TextInput(attrs={'class':'form-control','placeholder': ''}),
+            'mensaje': forms.Textarea(attrs={'class':'form-control','placeholder': ''}),
         }

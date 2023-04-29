@@ -1,0 +1,59 @@
+{% extends 'miliga/base_1.html' %}
+{% load static %}
+
+{% block css %}
+<style type="text/css">
+    label{
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="site-section bg-dark">
+    <div class="container row justify-content-center">
+        <div class="col-lg-8">
+            <h2>FORMULARIO</h2>
+            <form method="post" action="">
+                {% csrf_token %}
+                {{form.as_p}}
+                <div class="form-group mt-5">
+                    <input type="submit" class="btn btn-primary btn-block py-2 px-2" value="Enviar">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="site-section bg-dark">
+    <div class="container row justify-content-center">
+        <div class="d-flex justify-content-around w-100">
+            <div class="d-flex flex-column justify-content-around">
+                <a href="https://www.linkedin.com/in/jaime-medrano-bernales/">
+                    <span>
+                        <img height="35" src="{% static 'images/linkedin.png'%}" alt="">
+                        Linkedin
+                    </span>
+                </a>
+
+                <a href="{% url 'miliga:download_cv'%}">
+                    <span>
+                        <img height="35" src="{% static 'images/curriculum-vitae.png'%}" alt="">
+                        Curriculum Vitae
+                    </span>
+                </a>                
+            </div>
+            <div>
+                <img height="250" src="{% static 'images/jimbo_circulo.png'%}" alt="Logo">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+</script>
+{% endblock %}

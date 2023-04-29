@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import  Equipo, Jugador, CampoDeJuego, Partido, Jornada
+from .models import  Equipo, Jugador, CampoDeJuego, Partido, Jornada, Contacto
 
 from django.forms.widgets import ClearableFileInput
 from django.utils.translation import gettext_lazy as _
@@ -26,3 +26,8 @@ class PartidoAdmin(admin.ModelAdmin):
 class JornadaAdmin(admin.ModelAdmin):
     list_display = ('numero', 'fecha_inicio', 'fecha_terminacion')
     list_filter = ('numero', 'fecha_inicio', 'fecha_terminacion')
+
+@admin.register(Contacto)
+class ContactoAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'email', 'telefono', 'mensaje')
+    list_filter = ('nombre', 'email', 'telefono', 'mensaje')

@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 import pandas as pd
 from django.db.models import Count
-
+from django.contrib.auth.decorators import login_required
 
 def jugadores(request):
     context = {}
@@ -19,6 +19,7 @@ def jugadores(request):
     context = comprobar_mensajes(request, context)
     return render(request, 'miliga/jugadores/jugadores.html', context)
 
+@login_required
 def create_jugador(request,equipo_id=0):
     context = {}
     context['zona'] = 'jugadores'
@@ -57,6 +58,7 @@ def detail_jugador(request, jugador_id):
     context = comprobar_mensajes(request, context)
     return render(request, 'miliga/jugadores/detail_jugador.html', context)
 
+@login_required
 def edit_jugador(request, jugador_id):
     context = {}
     context['zona'] = 'jugadores'
@@ -87,6 +89,7 @@ def edit_jugador(request, jugador_id):
     context['jugador'] = jugador
     return render(request, 'miliga/jugadores/edit_jugador.html', context)
 
+@login_required
 def subir_img_jugador(request,jugador_id):
     context = {}
     context['zona'] = 'jugadores'
@@ -105,7 +108,7 @@ def subir_img_jugador(request,jugador_id):
     return redirect('miliga:jugadores')
 
 
-
+@login_required
 def delete_jugador(request, jugador_id):
     context = {}
     try:
@@ -118,7 +121,7 @@ def delete_jugador(request, jugador_id):
     request.session['mensaje'] = mensaje
     return redirect('miliga:detail_equipo',jugador.equipo.id)
 
-
+@login_required
 def create_jugadores_archivo(request,equipo_id=0):
     print('CREATE JUGADOR ARCHIVO')
     iguales={
