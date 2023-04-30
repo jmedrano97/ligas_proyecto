@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'miliga',
     'captcha',
+    'portafolio',
 ]
 
 MIDDLEWARE = [
