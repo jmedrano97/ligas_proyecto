@@ -23,6 +23,9 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('miliga.urls')),
-    path('portafolio',include('portafolio.urls')),
-]+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('miliga/',include('miliga.urls')),
+    path('',include('portafolio.urls')),
+]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
