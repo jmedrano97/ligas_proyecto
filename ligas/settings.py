@@ -81,16 +81,28 @@ WSGI_APPLICATION = 'ligas.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('NAME'),
-        'USER': env('USER'),
-        'PASSWORD': env('PASSWORD'),
-        'HOST': env('HOST'),
-        'PORT': env('PORT'),
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'miliga',
+            'USER': 'root',
+            'PASSWORD': '.loki11.',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': env('NAME'),
+            'USER': env('USER'),
+            'PASSWORD': env('PASSWORD'),
+            'HOST': env('HOST'),
+            'PORT': env('PORT'),
+        }
+    }
 
 
 # Password validation
