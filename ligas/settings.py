@@ -81,29 +81,46 @@ WSGI_APPLICATION = 'ligas.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'miliga',
-            'USER': 'root',
-            'PASSWORD': '.loki11.',
-            'HOST': 'localhost',
-            'PORT': '3306',
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': env('NAME'),
-            'USER': env('USER'),
-            'PASSWORD': env('PASSWORD'),
-            'HOST': env('HOST'),
-            'PORT': env('PORT'),
-        }
-    }
+# if DEBUG:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'NAME': 'miliga',
+#             'USER': 'root',
+#             'PASSWORD': '.loki11.',
+#             'HOST': 'localhost',
+#             'PORT': '3306',
+#         }
+#     }
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'miliga.db',
 
+#         }
+#     }
+# else:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': env('NAME'),
+#         'USER': env('USER'),
+#         'PASSWORD': env('PASSWORD'),
+#         'HOST': env('HOST'),
+#         'PORT': env('PORT'),
+#     }
+# }
+
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'miliga.db',
+
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
