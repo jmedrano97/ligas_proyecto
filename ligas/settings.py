@@ -171,3 +171,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 RECAPTCHA_PUBLIC_KEY = '6Le6scYlAAAAAExheUHEURV5pK-IDxJBKUL8QHmF'
 RECAPTCHA_PRIVATE_KEY = '6Le6scYlAAAAANEORTqH6-O0Z4LXhVtLmziok8Kw'
 
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
