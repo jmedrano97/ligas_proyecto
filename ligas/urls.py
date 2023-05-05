@@ -23,8 +23,7 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('miliga/',include('miliga.urls')),
-    path('',include('portafolio.urls')),
+    path('',include('miliga.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

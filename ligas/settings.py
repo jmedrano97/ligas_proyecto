@@ -11,12 +11,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
-import environ
 
 from pathlib import Path
 
-env = environ.Env()
-environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+# Mantener para facilitar la configuración de la aplicación
+# Cuando se suba a producción cambiar 
+SECRET_KEY = '_@%40&5!$+ze#llae2bapg3*8u#=iwic$3*cxb8tdwt6yso(o!'
 
-DEBUG = env('DEBUG')
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -44,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'miliga',
     'captcha',
-    'portafolio',
 ]
 
 MIDDLEWARE = [
